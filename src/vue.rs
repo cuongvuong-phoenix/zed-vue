@@ -10,7 +10,7 @@ use zed_extension_api::{self as zed, serde_json, Result};
 
 const SERVER_PATH: &str = "node_modules/@vue/language-server/bin/vue-language-server.js";
 const PACKAGE_NAME: &str = "@vue/language-server";
-const PACKAGE_VERSION: &str = "2.2.6";
+const PACKAGE_VERSION: &str = "2.2.8";
 
 const TYPESCRIPT_PACKAGE_NAME: &str = "typescript";
 
