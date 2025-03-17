@@ -1,7 +1,8 @@
 name: Update Vue LSP to latest version
 on:
-  schedule:
-    - cron: "0 0,12 * * *"
+  [push]
+  # schedule:
+  #   - cron: "0 0,12 * * *"
 jobs:
   update_vue_lsp_version:
     runs-on: ubuntu-latest
@@ -15,7 +16,7 @@ jobs:
       - name: Versions
         id: versions
         env:
-          LATEST_FULL: ${{ steps.get_vue_lsp_version.release }}
+          LATEST_FULL: ${{ steps.get_vue_lsp_version.outputs.release }}
         run: |
           current=$(grep -oP '(?<=^const PACKAGE_VERSION: &str = ")([\d\.]+)(?=";$)' src/vue.rs)
           echo "current=$current" >> $GITHUB_OUTPUT
@@ -32,7 +33,7 @@ jobs:
 
           # Bump extension verison
           ext=$(grep -oP '(?<=^version = ")([\d\.]+)(?="$)' Cargo.toml )
-          IFS=. read -r major minor patch
+          IFS=. read -r major minor patch <<< $ext
           ((patch++))
           new_ext="$major.$minor.$patch"
           sed -i -E "0,/(version = \")($ext)(\")/s//\1$new_ext\3/" Cargo.toml
